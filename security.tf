@@ -1,7 +1,7 @@
 # tokyo security group
 resource "aws_security_group" "tokyo_web_sg" {
-  name        = "portfolio-web-sg"
-  vpc_id      = aws_vpc.main.id
+  name   = "portfolio-web-sg"
+  vpc_id = aws_vpc.main.id
 
   # allow http
   ingress {
@@ -11,7 +11,7 @@ resource "aws_security_group" "tokyo_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-/*
+  /*
   # ssh 22 (specify my ip later)
   ingress {
     from_port   = 22
@@ -34,9 +34,9 @@ resource "aws_security_group" "tokyo_web_sg" {
 
 # osaka security group
 resource "aws_security_group" "osaka_web_sg" {
-  provider    = aws.osaka
-  name        = "portfolio-osaka-web-sg"
-  vpc_id      = aws_vpc.osaka_main.id
+  provider = aws.osaka
+  name     = "portfolio-osaka-web-sg"
+  vpc_id   = aws_vpc.osaka_main.id
 
   # allow http
   ingress {
@@ -46,7 +46,7 @@ resource "aws_security_group" "osaka_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-/*
+  /*
 # ssh 22 (specify my ip later)
   ingress {
     from_port   = 22
@@ -56,7 +56,7 @@ resource "aws_security_group" "osaka_web_sg" {
   }
 */
 
-# allow all egress
+  # allow all egress
   egress {
     from_port   = 0
     to_port     = 0

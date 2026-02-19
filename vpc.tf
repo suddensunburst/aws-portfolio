@@ -41,7 +41,7 @@ resource "aws_subnet" "private_1c" {
 
 # osaka vpc 10.1.0.0/16
 resource "aws_vpc" "osaka_main" {
-  provider   = aws.osaka  # 重要
+  provider   = aws.osaka # 重要
   cidr_block = "10.1.0.0/16"
 
   tags = {

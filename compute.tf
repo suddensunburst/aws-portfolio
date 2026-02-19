@@ -13,7 +13,7 @@ resource "aws_instance" "tokyo_web" {
 
   # subnet 1a
   subnet_id = aws_subnet.public_1a.id
-  
+
   # attach security grp
   vpc_security_group_ids = [aws_security_group.tokyo_web_sg.id]
 
@@ -39,20 +39,20 @@ data "aws_ssm_parameter" "osaka_amzn2023_ami" {
 
 # launch osaka web server
 resource "aws_instance" "osaka_web" {
-  provider                    = aws.osaka
-  ami                         = data.aws_ssm_parameter.osaka_amzn2023_ami.value
-  instance_type               = "t3.micro"
+  provider      = aws.osaka
+  ami           = data.aws_ssm_parameter.osaka_amzn2023_ami.value
+  instance_type = "t3.micro"
 
-# force public ip
+  # force public ip
   associate_public_ip_address = true
 
-# subnet 1a
-  subnet_id              = aws_subnet.osaka_public_3a.id
+  # subnet 1a
+  subnet_id = aws_subnet.osaka_public_3a.id
 
-# attach security grp
+  # attach security grp
   vpc_security_group_ids = [aws_security_group.osaka_web_sg.id]
 
-# init sh (install apache)
+  # init sh (install apache)
   user_data = <<-EOF
               #!/bin/bash
               dnf install -y httpd
