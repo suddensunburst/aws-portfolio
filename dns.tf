@@ -3,10 +3,11 @@ resource "aws_route53_zone" "portfolio_sub" {
   name = "portfolio.${var.main_domain}"
 }
 
-# tokyo health check (there has to be a better way)
+# tokyo health check (not neeed after implementing https on alb)
+/*
 resource "aws_route53_health_check" "tokyo_health" {
-  ip_address        = aws_instance.tokyo_web_1a.public_ip
-  port              = 80
+  # ip_address        = aws_instance.tokyo_web_1a.public_ip
+    port              = 80
   type              = "HTTP"
   resource_path     = "/"
   failure_threshold = "3" # three strikes
@@ -14,6 +15,7 @@ resource "aws_route53_health_check" "tokyo_health" {
 
   tags = { Name = "tokyo-health-check" }
 }
+*/
 
 # tokyo record (primary)
 resource "aws_route53_record" "portfolio_primary" {
@@ -34,7 +36,8 @@ resource "aws_route53_record" "portfolio_primary" {
   }
 
   set_identifier  = "tokyo"
-  health_check_id = aws_route53_health_check.tokyo_health.id
+  # not needed after implementing https on alb
+  # health_check_id = aws_route53_health_check.tokyo_health.id
 }
 
 # osaka record (secondary)
