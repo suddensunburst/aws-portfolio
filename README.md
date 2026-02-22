@@ -1,7 +1,7 @@
 # AWS Portfolio Infrastructure
 
-**⚠️ Heavily Work In Progress: 現在構築・学習中のプロジェクトです。**
-AWS(東京・大阪リージョン)を活用した高可用性(HA)サイトのインフラ構成です。
+**⚠️ Heavily Work In Progress: 現在構築・学習中のプロジェクトです。**  
+AWS(東京・大阪リージョン)を活用した高可用性(HA)サイトのインフラ構成です。  
 趣味とAWS-SAAの学習を兼ねて、Terraformによるインフラ配備の自動化を段階的に実装しています。
 
 ## 構成概要
@@ -32,8 +32,8 @@ AWS(東京・大阪リージョン)を活用した高可用性(HA)サイトの�
 
 ### 1. 事前準備
 
-以下の内容を含む `terraform.tfvars` を作成してください(このファイルはGit管理から除外されます)。
+以下の内容を含む `terraform.tfvars` を作成してください。
 
 ```hcl
-cloudflare_api_token = "CLOUDFLARE_API_TOKEN"
-cloudflare_zone_id    = "CLOUDFLARE_ZONE_ID"
+cloudflare_api_token    = "CLOUDFLARE_API_TOKEN"
+cloudflare_zone_id      = "CLOUDFLARE_ZONE_ID"
