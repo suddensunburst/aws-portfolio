@@ -1,7 +1,7 @@
 variable "cloudflare_api_token" {
   description = "Cloudflare API Token"
   type        = string
-  sensitive   = true # supress logs
+  sensitive   = true # suppress logs
 }
 
 variable "cloudflare_zone_id" {

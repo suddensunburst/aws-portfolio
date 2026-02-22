@@ -9,7 +9,6 @@
 *.tfvars.json
 
 # logs
-crash.log
 *.log
 
 # edtior and os 

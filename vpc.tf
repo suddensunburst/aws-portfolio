@@ -50,7 +50,7 @@ resource "aws_vpc" "osaka_main" {
 }
 
 /*
-# fetch osakas available az 保留
+# fetch osakas available az (pending)
 data "aws_availability_zones" "osaka_az" {
   provider = aws.osaka
   state    = "available"
@@ -122,13 +122,13 @@ resource "aws_route_table" "public" {
   tags = { Name = "portfolio-public-rt" }
 }
 
-# assoc rt to pubsub 1a
+# assoc route table  to public subnet 1a
 resource "aws_route_table_association" "public_1a" {
   subnet_id      = aws_subnet.public_1a.id
   route_table_id = aws_route_table.public.id
 }
 
-# assoc rt to pubsub 1c
+# assoc route table to public subnet 1c
 resource "aws_route_table_association" "public_1c" {
   subnet_id      = aws_subnet.public_1c.id
   route_table_id = aws_route_table.public.id
@@ -147,14 +147,14 @@ resource "aws_route_table" "osaka_public" {
   tags = { Name = "portfolio-osaka-public-rt" }
 }
 
-# assoc rt to pubsub 3a
+# assoc route table to public subnet 3a
 resource "aws_route_table_association" "osaka_public_3a" {
   provider       = aws.osaka
   subnet_id      = aws_subnet.osaka_public_3a.id
   route_table_id = aws_route_table.osaka_public.id
 }
 
-# assoc rt to pubsub 3c
+# assoc route table to public subnet 3c
 resource "aws_route_table_association" "osaka_public_3c" {
   provider       = aws.osaka
   subnet_id      = aws_subnet.osaka_public_3c.id
