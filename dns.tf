@@ -10,7 +10,7 @@ resource "aws_route53_health_check" "tokyo_health" {
   type              = "HTTP"
   resource_path     = "/"
   failure_threshold = "3" # three strikes
-  request_interval  = "30"
+  request_interval  = "10"
 
   tags = { Name = "tokyo-health-check" }
 }
