@@ -27,6 +27,8 @@ resource "aws_instance" "tokyo_web" {
               EOF
 
   tags = { Name = "portfolio-tokyo-web" }
+
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
 
 
@@ -62,5 +64,7 @@ resource "aws_instance" "osaka_web" {
               EOF
 
   tags = { Name = "portfolio-osaka-web" }
+
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
 
