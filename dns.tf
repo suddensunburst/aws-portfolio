@@ -1,6 +1,6 @@
 # dns: make "portfolio" subdomain zone
 resource "aws_route53_zone" "portfolio_sub" {
-  name = "portfolio.vexations.org"
+  name = "portfolio.${var.main_domain}"
 }
 
 # tokyo health check (要検討)
@@ -18,7 +18,7 @@ resource "aws_route53_health_check" "tokyo_health" {
 # tokyo record (primary)
 resource "aws_route53_record" "portfolio_primary" {
   zone_id = aws_route53_zone.portfolio_sub.zone_id
-  name    = "portfolio.vexations.org"
+  name    = "portfolio.${var.main_domain}"
   type    = "A"
 
   # failover stuff
@@ -35,7 +35,7 @@ resource "aws_route53_record" "portfolio_primary" {
 # osaka record (secondary)
 resource "aws_route53_record" "portfolio_secondary" {
   zone_id = aws_route53_zone.portfolio_sub.zone_id
-  name    = "portfolio.vexations.org"
+  name    = "portfolio.${var.main_domain}"
   type    = "A"
 
   # failover stuff
@@ -50,11 +50,10 @@ resource "aws_route53_record" "portfolio_secondary" {
 
 # add 4 records route 53 sent
 resource "cloudflare_record" "portfolio_ns" {
-  for_each = toset(aws_route53_zone.portfolio_sub.name_servers)
-
+  count   = 4
   zone_id = var.cloudflare_zone_id
   name    = "portfolio"
+  content   = aws_route53_zone.portfolio_sub.name_servers[count.index]
   type    = "NS"
-  content = trimsuffix(each.value, ".") 
   ttl     = 60
 }
