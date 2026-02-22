@@ -5,7 +5,7 @@ resource "aws_route53_zone" "portfolio_sub" {
 
 # tokyo health check (there has to be a better way)
 resource "aws_route53_health_check" "tokyo_health" {
-  ip_address        = aws_instance.tokyo_web.public_ip
+  ip_address        = aws_instance.tokyo_web_1a.public_ip
   port              = 80
   type              = "HTTP"
   resource_path     = "/"
@@ -21,6 +21,13 @@ resource "aws_route53_record" "portfolio_primary" {
   name    = "portfolio.${var.main_domain}"
   type    = "A"
 
+# use alias when using alb (free and fast)
+  alias {
+    name                   = aws_lb.tokyo_alb.dns_name
+    zone_id                = aws_lb.tokyo_alb.zone_id
+    evaluate_target_health = true
+  }
+
   # failover stuff
   failover_routing_policy {
     type = "PRIMARY"
@@ -28,8 +35,6 @@ resource "aws_route53_record" "portfolio_primary" {
 
   set_identifier  = "tokyo"
   health_check_id = aws_route53_health_check.tokyo_health.id
-  ttl             = "60"
-  records         = [aws_instance.tokyo_web.public_ip]
 }
 
 # osaka record (secondary)

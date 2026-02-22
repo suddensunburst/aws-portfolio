@@ -5,7 +5,7 @@ output "portfolio_ns" {
 
 # show pub ip tokyo instance
 output "tokyo_web_public_ip" {
-  value = "http://${aws_instance.tokyo_web.public_ip}"
+  value = "http://${aws_instance.tokyo_web_1a.public_ip}"
 }
 
 # show pub ip oskaka instance

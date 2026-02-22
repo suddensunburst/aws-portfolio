@@ -66,3 +66,27 @@ resource "aws_security_group" "osaka_web_sg" {
 
   tags = { Name = "portfolio-osaka-web-sg" }
 }
+
+# tokyo alb security group
+resource "aws_security_group" "tokyo_alb_sg" {
+  name   = "portfolio-alb-sg"
+  vpc_id = aws_vpc.main.id
+
+  # allow http
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # allow all egress
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "portfolio-alb-sg" }
+}
