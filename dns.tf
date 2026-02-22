@@ -3,7 +3,7 @@ resource "aws_route53_zone" "portfolio_sub" {
   name = "portfolio.${var.main_domain}"
 }
 
-# tokyo health check (要検討)
+# tokyo health check (there has to be a better way)
 resource "aws_route53_health_check" "tokyo_health" {
   ip_address        = aws_instance.tokyo_web.public_ip
   port              = 80
@@ -48,7 +48,7 @@ resource "aws_route53_record" "portfolio_secondary" {
   records        = [aws_instance.osaka_web.public_ip]
 }
 
-# add 4 records route 53 sent
+# add 4 records route 53 sent (might wanna try some toset stuff...)
 resource "cloudflare_record" "portfolio_ns" {
   count   = 4
   zone_id = var.cloudflare_zone_id
