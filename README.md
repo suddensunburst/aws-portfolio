@@ -26,6 +26,8 @@ AWS(東京・大阪リージョン)を活用した高可用性(HA)サイトの�
 - `security.tf`: セキュリティグループ(ポート80等の開放設定)
 - `compute.tf`: EC2インスタンス、AMI選択、Apache自動起動
 - `dns.tf`: Route 53ホストゾーン、ヘルスチェック、デプロイ時のCloudflare連携設定
+- `variables.tf`: トークン、ドメイン名など変数
+- `iam.tf`: SSM用IAMロール
 - `outputs.tf`: 情報出力用
 
 ## 導入手順
