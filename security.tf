@@ -3,7 +3,7 @@ resource "aws_security_group" "tokyo_web_sg" {
   name   = "portfolio-web-sg"
   vpc_id = aws_vpc.main.id
 
-  # allow http
+  # allow http from alb
   ingress {
     from_port   = 80
     to_port     = 80
