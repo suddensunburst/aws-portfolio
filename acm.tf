@@ -28,7 +28,7 @@ resource "aws_route53_record" "cert_validation" {
   zone_id         = aws_route53_zone.portfolio_sub.zone_id
 }
 
-# 3. wait for the validation process (otherwise alb fails)
+# 3. wait until the validation process completes (otherwise alb fails or so they say)
 resource "aws_acm_certificate_validation" "cert" {
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
