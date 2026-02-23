@@ -64,6 +64,14 @@ resource "aws_security_group" "tokyo_alb_sg" {
   name   = "portfolio-alb-sg"
   vpc_id = aws_vpc.main.id
 
+  # allow http (80 for redirection)
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # allow https (443)
   ingress {
     from_port   = 443
