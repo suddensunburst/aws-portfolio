@@ -3,20 +3,6 @@ resource "aws_route53_zone" "portfolio_sub" {
   name = "portfolio.${var.main_domain}"
 }
 
-/*
-# tokyo health check (not neeed after implementing https on alb)
-resource "aws_route53_health_check" "tokyo_health" {
-  # ip_address        = aws_instance.tokyo_web_1a.public_ip
-    port              = 80
-  type              = "HTTP"
-  resource_path     = "/"
-  failure_threshold = "3" # three strikes
-  request_interval  = "10"
-
-  tags = { Name = "tokyo-health-check" }
-}
-*/
-
 # tokyo record (primary)
 resource "aws_route53_record" "portfolio_primary" {
   zone_id = aws_route53_zone.portfolio_sub.zone_id
@@ -36,15 +22,20 @@ resource "aws_route53_record" "portfolio_primary" {
   }
 
   set_identifier  = "tokyo"
-  # not needed after implementing https on alb
-  # health_check_id = aws_route53_health_check.tokyo_health.id
 }
 
 # osaka record (secondary)
-resource "aws_route53_record" "portfolio_secondary" {
+resource "aws_route53_record" "osaka_failover" {
   zone_id = aws_route53_zone.portfolio_sub.zone_id
   name    = "portfolio.${var.main_domain}"
   type    = "A"
+
+  # specify alb as an alias
+  alias {
+    name                   = aws_lb.osaka_alb.dns_name
+    zone_id                = aws_lb.osaka_alb.zone_id
+    evaluate_target_health = true
+  }
 
   # failover stuff
   failover_routing_policy {
@@ -52,8 +43,6 @@ resource "aws_route53_record" "portfolio_secondary" {
   }
 
   set_identifier = "osaka"
-  ttl            = "60"
-  records        = [aws_instance.osaka_web.public_ip]
 }
 
 # add 4 records which route 53 sent (might wanna try some toset stuff...)

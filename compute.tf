@@ -68,7 +68,7 @@ data "aws_ssm_parameter" "osaka_amzn2023_ami" {
 }
 
 # launch osaka web server
-resource "aws_instance" "osaka_web" {
+resource "aws_instance" "osaka_web_3a" {
   provider      = aws.osaka
   ami           = data.aws_ssm_parameter.osaka_amzn2023_ami.value
   instance_type = "t3.micro"
@@ -96,3 +96,30 @@ resource "aws_instance" "osaka_web" {
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
 
+resource "aws_instance" "osaka_web_3c" {
+  provider      = aws.osaka
+  ami           = data.aws_ssm_parameter.osaka_amzn2023_ami.value
+  instance_type = "t3.micro"
+
+  # force public ip
+  associate_public_ip_address = true
+
+  # subnet 1a
+  subnet_id = aws_subnet.osaka_public_3c.id
+
+  # attach security grp
+  vpc_security_group_ids = [aws_security_group.osaka_web_sg.id]
+
+  # init sh (install apache)
+  user_data = <<-EOF
+              #!/bin/bash
+              dnf install -y httpd
+              systemctl start httpd
+              systemctl enable httpd
+              echo "<h1>osaka 3a</h1>" > /var/www/html/index.html
+              EOF
+
+  tags = { Name = "portfolio-osaka-web" }
+
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+}

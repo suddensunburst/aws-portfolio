@@ -10,7 +10,7 @@ output "tokyo_web_public_ip" {
 
 # show the public ip of oskaka instance
 output "osaka_web_public_ip" {
-  value = "http://${aws_instance.osaka_web.public_ip}"
+  value = "http://${aws_instance.osaka_web_3a.public_ip}"
 
 }
 

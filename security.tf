@@ -45,7 +45,7 @@ resource "aws_security_group" "osaka_web_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.osaka_alb_sg.id]
   }
 
   # allow all egress
@@ -89,4 +89,38 @@ resource "aws_security_group" "tokyo_alb_sg" {
   }
 
   tags = { Name = "portfolio-alb-sg" }
+}
+
+
+# osaka alb security group
+resource "aws_security_group" "osaka_alb_sg" {
+  provider = aws.osaka
+  name   = "osaka-portfolio-alb-sg"
+  vpc_id   = aws_vpc.osaka_main.id
+
+  # allow http (80 for redirection)
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # allow https (443)
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # allow all egress
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "osaka-portfolio-alb-sg" }
 }
