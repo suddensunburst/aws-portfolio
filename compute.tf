@@ -76,7 +76,7 @@ resource "aws_instance" "osaka_web_3a" {
   # force public ip
   associate_public_ip_address = true
 
-  # subnet 1a
+  # subnet 3a
   subnet_id = aws_subnet.osaka_public_3a.id
 
   # attach security grp
@@ -104,7 +104,7 @@ resource "aws_instance" "osaka_web_3c" {
   # force public ip
   associate_public_ip_address = true
 
-  # subnet 1a
+  # subnet 3c
   subnet_id = aws_subnet.osaka_public_3c.id
 
   # attach security grp
