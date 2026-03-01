@@ -37,9 +37,9 @@ resource "aws_acm_certificate_validation" "cert" {
 
 # 1. requesting cert Osaka
 resource "aws_acm_certificate" "osaka_cert" {
-  provider                  = aws.osaka
-  domain_name               = "portfolio.${var.main_domain}"
-  validation_method         = "DNS"
+  provider          = aws.osaka
+  domain_name       = "portfolio.${var.main_domain}"
+  validation_method = "DNS"
 
   lifecycle {
     create_before_destroy = true

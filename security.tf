@@ -5,23 +5,11 @@ resource "aws_security_group" "tokyo_web_sg" {
 
   # allow http from alb
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
     security_groups = [aws_security_group.tokyo_alb_sg.id]
-    # cidr_blocks = ["0.0.0.0/0"]
-
   }
-
-  /*
-  # ssh 22 (specify my ip if needed)
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
-  }
-*/
 
   # allow all egress
   egress {
@@ -42,9 +30,9 @@ resource "aws_security_group" "osaka_web_sg" {
 
   # allow http
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
     security_groups = [aws_security_group.osaka_alb_sg.id]
   }
 
@@ -95,7 +83,7 @@ resource "aws_security_group" "tokyo_alb_sg" {
 # osaka alb security group
 resource "aws_security_group" "osaka_alb_sg" {
   provider = aws.osaka
-  name   = "osaka-portfolio-alb-sg"
+  name     = "osaka-portfolio-alb-sg"
   vpc_id   = aws_vpc.osaka_main.id
 
   # allow http (80 for redirection)

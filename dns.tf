@@ -9,7 +9,7 @@ resource "aws_route53_record" "portfolio_primary" {
   name    = "portfolio.${var.main_domain}"
   type    = "A"
 
-# use an alias when using alb (free and fast)
+  # use an alias when using alb (free and fast)
   alias {
     name                   = aws_lb.tokyo_alb.dns_name
     zone_id                = aws_lb.tokyo_alb.zone_id
@@ -21,7 +21,7 @@ resource "aws_route53_record" "portfolio_primary" {
     type = "PRIMARY"
   }
 
-  set_identifier  = "tokyo"
+  set_identifier = "tokyo"
 }
 
 # osaka record (secondary)
@@ -45,12 +45,12 @@ resource "aws_route53_record" "osaka_failover" {
   set_identifier = "osaka"
 }
 
-# add 4 records which route 53 sent (might wanna try some toset stuff...)
+# delegate portfolio subdomain to route 53
 resource "cloudflare_record" "portfolio_ns" {
   count   = 4
   zone_id = var.cloudflare_zone_id
   name    = "portfolio"
-  content   = aws_route53_zone.portfolio_sub.name_servers[count.index]
+  content = aws_route53_zone.portfolio_sub.name_servers[count.index]
   type    = "NS"
   ttl     = 60
 }

@@ -41,7 +41,7 @@ resource "aws_subnet" "private_1c" {
 
 # osaka vpc 10.1.0.0/16
 resource "aws_vpc" "osaka_main" {
-  provider   = aws.osaka # this is super important
+  provider   = aws.osaka
   cidr_block = "10.1.0.0/16"
 
   tags = {
@@ -49,20 +49,12 @@ resource "aws_vpc" "osaka_main" {
   }
 }
 
-/*
-# fetch osakas available azs (pending)
-data "aws_availability_zones" "osaka_az" {
-  provider = aws.osaka
-  state    = "available"
-}
-*/
-
 # osaka public subnets
 resource "aws_subnet" "osaka_public_3a" {
   provider          = aws.osaka
   vpc_id            = aws_vpc.osaka_main.id
   cidr_block        = "10.1.1.0/24"
-  availability_zone = "ap-northeast-3a" # for now
+  availability_zone = "ap-northeast-3a"
   tags              = { Name = "portfolio-osaka-public-3a" }
 }
 

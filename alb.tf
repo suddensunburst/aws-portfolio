@@ -14,10 +14,10 @@ resource "aws_lb" "tokyo_alb" {
 
 # target group Tokyo
 resource "aws_lb_target_group" "tokyo_tg" {
-  name     = "portfolio-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
+  name        = "portfolio-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
   target_type = "instance"
 
   health_check {
@@ -25,7 +25,7 @@ resource "aws_lb_target_group" "tokyo_tg" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 5
-    interval            = 10 # this should be faster than route 53
+    interval            = 10
     matcher             = "200"
   }
 }
@@ -37,23 +37,23 @@ resource "aws_lb_listener" "tokyo_http_redirect" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "redirect"
+    type = "redirect"
 
     redirect {
-      port = "443"
-      protocol = "HTTPS"
+      port        = "443"
+      protocol    = "HTTPS"
       status_code = "HTTP_301" # force https
     }
   }
 }
 
-# https lisnter (443)
+# https listener (443)
 resource "aws_lb_listener" "tokyo_https" {
   load_balancer_arn = aws_lb.tokyo_alb.arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08" # recommended. might wanna check it
-  certificate_arn   = aws_acm_certificate.cert.arn # linking cert
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert.arn
 
   default_action {
     type             = "forward"
@@ -90,10 +90,10 @@ resource "aws_lb" "osaka_alb" {
 # target group Osaka
 resource "aws_lb_target_group" "osaka_tg" {
   provider    = aws.osaka
-  name     = "osaka-portfolio-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.osaka_main.id
+  name        = "osaka-portfolio-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.osaka_main.id
   target_type = "instance"
 
   health_check {
@@ -114,17 +114,17 @@ resource "aws_lb_listener" "osaka_http_redirect" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "redirect"
+    type = "redirect"
 
     redirect {
-      port = "443"
-      protocol = "HTTPS"
+      port        = "443"
+      protocol    = "HTTPS"
       status_code = "HTTP_301" # force https
     }
   }
 }
 
-# https lisnter (443)
+# https listener (443)
 resource "aws_lb_listener" "osaka_https" {
   provider          = aws.osaka
   load_balancer_arn = aws_lb.osaka_alb.arn

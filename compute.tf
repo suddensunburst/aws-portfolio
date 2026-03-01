@@ -40,7 +40,6 @@ resource "aws_instance" "tokyo_web_1c" {
   # force public ip
   associate_public_ip_address = true
 
-  # subnet 1a
   subnet_id = aws_subnet.public_1c.id
 
   # attach security grp
@@ -91,7 +90,7 @@ resource "aws_instance" "osaka_web_3a" {
               echo "<h1>osaka 3a</h1>" > /var/www/html/index.html
               EOF
 
-  tags = { Name = "portfolio-osaka-web" }
+  tags = { Name = "portfolio-osaka-web-3a" }
 
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
@@ -116,10 +115,10 @@ resource "aws_instance" "osaka_web_3c" {
               dnf install -y httpd
               systemctl start httpd
               systemctl enable httpd
-              echo "<h1>osaka 3a</h1>" > /var/www/html/index.html
+              echo "<h1>osaka 3c</h1>" > /var/www/html/index.html
               EOF
 
-  tags = { Name = "portfolio-osaka-web" }
+  tags = { Name = "portfolio-osaka-web-3c" }
 
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
