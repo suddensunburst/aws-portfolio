@@ -53,7 +53,7 @@ resource "aws_lb_listener" "tokyo_https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn   = aws_acm_certificate_validation.cert.certificate_arn
 
   default_action {
     type             = "forward"
@@ -131,7 +131,7 @@ resource "aws_lb_listener" "osaka_https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.osaka_cert.arn
+  certificate_arn   = aws_acm_certificate_validation.osaka_cert.certificate_arn
 
   default_action {
     type             = "forward"
